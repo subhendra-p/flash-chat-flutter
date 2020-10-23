@@ -21,6 +21,21 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // void getMessages() async {
+  //   final messages = await _store.collection('messages').get();
+  //   for (var message in messages.docs) {
+  //     print(message.data());
+  //   }
+  // }
+
+  void messageStreams() async {
+    await for (var snapShot in _store.collection('messages').snapshots()) {
+      for (var message in snapShot.docs) {
+        print(message.data());
+      }
+    }
+  }
+
   @override
   void initState() {
     getCurrentUser();
@@ -37,6 +52,8 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 //Implement logout functionality
+                // getMessages();
+                messageStreams();
               }),
         ],
         title: Text('⚡️Chat'),
